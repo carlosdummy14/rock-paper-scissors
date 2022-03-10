@@ -1,0 +1,87 @@
+.main {
+  width: 500px;
+  height: 500px;
+  background-color: var(--color-background);
+  border-radius: 10px;
+}
+
+.round {
+  font-weight: bold;
+  font-size: 30px;
+  text-align: center;
+  margin: 30px 0 0;
+}
+
+.game-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.panel {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.item {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: var(--color-purple);
+  margin: 20px 0 60px;
+  border: 10px solid var(--color-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item::before {
+  content: "";
+  background-color: var(--color-aqua);
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 3px solid var(--color-dark);
+  position: relative;
+}
+
+.image {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  fill: var(--color-tomato);
+}
+
+.image-right {
+  transform: rotateY(180deg);
+  fill: var(--color-blue);
+}
+
+.btn {
+  font-family: var(--font-family);
+  font-weight: bold;
+  font-size: 25px;
+  width: 130px;
+  height: 40px;
+  border-radius: 50px;
+  border: 2px solid var(--color-dark);
+  background-color: var(--color-purple);
+  color: var(--color-aqua);
+  cursor: pointer;
+}
+
+.btn:active {
+  transition: background-color 300ms;
+  background-color: var(--color-dark);
+}
+
+.btn-stop {
+  background-color: var(--color-red);
+  color: var(--color-white);
+}
