@@ -34,7 +34,7 @@
   height: 200px;
   border-radius: 50%;
   background-color: var(--color-purple);
-  margin: 20px 0 60px;
+  margin: 20px 0 40px;
   border: 10px solid var(--color-white);
   display: flex;
   justify-content: center;
@@ -63,6 +63,10 @@
   fill: var(--color-blue);
 }
 
+.buttons {
+  text-align: center;
+}
+
 .btn {
   font-family: var(--font-family);
   font-weight: bold;
@@ -84,4 +88,13 @@
 .btn-stop {
   background-color: var(--color-red);
   color: var(--color-white);
+}
+
+.btn-large {
+  width: 200px;
+}
+
+.winner {
+  position: absolute;
+  width: 120px;
 }

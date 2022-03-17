@@ -2,6 +2,8 @@ import { useState } from 'react'
 import HandRock from './HandRock'
 import HandScissors from './HandScissors'
 import HandPaper from './HandPaper'
+import checkScore from '../utils/checkScore'
+import winImage from '../assets/WIN.png'
 import './Main.css'
 
 const imageLeft = [<HandPaper />, <HandRock />, <HandScissors />]
@@ -12,9 +14,11 @@ const imageRight = [
 ]
 
 let intervalControl = null
+const MAXROUNDS = 10
+const ROLLMS = 50
 
-const Main = props => {
-  const [round, setRound] = useState(1)
+const Main = ({ setGameStatus }) => {
+  const [round, setRound] = useState(0)
   const [score, setScore] = useState({
     left: 0,
     right: 0
@@ -23,79 +27,42 @@ const Main = props => {
     left: 0,
     right: 0
   })
+  const [isRoll, setIsRoll] = useState(true)
+  const [winner, setWinner] = useState('')
 
   const handleRoll = () => {
+    setIsRoll(false)
     intervalControl = setInterval(() => {
       setRandomNumber({
         left: Math.floor(Math.random() * 3),
         right: Math.floor(Math.random() * 3)
       })
-    }, 50)
+    }, ROLLMS)
     setRound(prevRound => {
       return prevRound + 1
     })
   }
 
-  const checkScore = () => {
-    if (randomNumber.left !== randomNumber.right) {
-      // paper vs rock
-      if (randomNumber.left === 0 && randomNumber.right === 1)
-        setScore(prevScore => {
-          return {
-            ...prevScore,
-            left: prevScore.left + 1
-          }
-        })
-      // paper vs scissors
-      if (randomNumber.left === 0 && randomNumber.right === 2)
-        setScore(prevScore => {
-          return {
-            ...prevScore,
-            right: prevScore.right + 1
-          }
-        })
-      // rock vs paper
-      if (randomNumber.left === 1 && randomNumber.right === 0)
-        setScore(prevScore => {
-          return {
-            ...prevScore,
-            right: prevScore.right + 1
-          }
-        })
-      // rock vs scissors
-      if (randomNumber.left === 1 && randomNumber.right === 2)
-        setScore(prevScore => {
-          return {
-            ...prevScore,
-            left: prevScore.left + 1
-          }
-        })
-      // scissors vs paper
-      if (randomNumber.left === 2 && randomNumber.right === 0)
-        setScore(prevScore => {
-          return {
-            ...prevScore,
-            left: prevScore.left + 1
-          }
-        })
-      // scissors vs rock
-      if (randomNumber.left === 2 && randomNumber.right === 1)
-        setScore(prevScore => {
-          return {
-            ...prevScore,
-            right: prevScore.right + 1
-          }
-        })
-      // paper(0) rock(1) scissors(2)
+  const handleStop = () => {
+    setIsRoll(true)
+    clearInterval(intervalControl)
+    const calculateScore = checkScore(
+      randomNumber.left,
+      randomNumber.right,
+      score
+    )
+    setScore(calculateScore)
+    if (round === MAXROUNDS) {
+      if (calculateScore.left === calculateScore.right) {
+        setWinner('tie')
+      } else if (calculateScore.left > calculateScore.right) {
+        setWinner('left')
+      } else {
+        setWinner('right')
+      }
     }
   }
 
-  const handleStop = () => {
-    clearInterval(intervalControl)
-    checkScore()
-  }
-
-  console.log('render')
   return (
     <div className="main">
       <p className="round">
@@ -106,18 +73,38 @@ const Main = props => {
       <div className="game-container">
         <div className="panel">
           <span className="score">SCORE: {score.left}</span>
-          <div className="item">{imageLeft[randomNumber.left]}</div>
-          <button className="btn btn-fight" onClick={handleRoll}>
-            ROLL
-          </button>
+          <div className="item">
+            {imageLeft[randomNumber.left]}
+            {winner === 'left' && <img className="winner" src={winImage} />}
+          </div>
         </div>
         <div className="panel">
           <span className="score">SCORE: {score.right}</span>
-          <div className="item">{imageRight[randomNumber.right]}</div>
-          <button className="btn btn-stop" onClick={handleStop}>
-            STOP
-          </button>
+          <div className="item">
+            {imageRight[randomNumber.right]}
+            {winner === 'right' && <img className="winner" src={winImage} />}
+          </div>
         </div>
+      </div>
+      <div className="buttons">
+        {winner === '' ? (
+          isRoll ? (
+            <button className="btn btn-roll" onClick={handleRoll}>
+              ROLL
+            </button>
+          ) : (
+            <button className="btn btn-stop" onClick={handleStop}>
+              STOP
+            </button>
+          )
+        ) : (
+          <button
+            className="btn btn-large"
+            onClick={() => setGameStatus('start')}
+          >
+            PLAY AGAIN
+          </button>
+        )}
       </div>
     </div>
   )
