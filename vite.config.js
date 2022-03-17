@@ -11,9 +11,9 @@ export default defineConfig({
   root: 'src',
   base,
   mode,
+  publicDir: '../public',
   build: {
-    outDir: '../dist',
-    assetsDir: './'
+    outDir: '../dist'
   },
   plugins: [react()]
 })
