@@ -1,5 +1,7 @@
 ## Rock-Paper-Scissors Game
 
+[The Game](https://carlosdummy14.github.io/rock-paper-scissors/)
+
 - Two screens
 - Roll 10 times and win!!!
 
@@ -19,4 +21,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 #### Personal note.
 
-SVG images to change colors
+SVG images to change colors.
+I should use "currentColor" and SVG components.

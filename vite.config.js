@@ -1,4 +1,3 @@
-import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 const path = require('path')
 const mode =
@@ -6,14 +5,29 @@ const mode =
 const base =
   mode === 'production' ? '/' + path.basename(process.cwd()) + '/' : '/'
 
-// https://vitejs.dev/config/
-export default defineConfig({
+export default {
   root: 'src',
   base,
   mode,
   publicDir: '../public',
   build: {
-    outDir: '../dist'
+    outDir: '../dist',
+    assetsDir: './'
   },
   plugins: [react()]
-})
+}
+
+//import { defineConfig } from 'vite'
+
+// https://vitejs.dev/config/
+//export default defineConfig({
+//root: 'src',
+//base,
+//mode,
+//publicDir: '../public',
+//build: {
+//outDir: '../dist',
+//assetsDir: './'
+//},
+//plugins: [react()]
+//})
